@@ -170,14 +170,13 @@ export default function InscricaoCard({ inscricao }: InscricaoCardProps) {
   )
 }
 
-// Estilos centralizados
 const styles = {
   card: {
     width: '100%',
     maxWidth: '700px',
-    minHeight: '600px',
+    minHeight: '520px', // Reduzido para telas pequenas
     margin: '16px auto',
-    padding: '20px',
+    padding: '16px', // Menos padding em mobile
     backgroundColor: '#fff',
     borderRadius: '12px',
     border: '2px solid #e9e9e97a',
@@ -190,7 +189,7 @@ const styles = {
     width: '100%',
     borderCollapse: 'collapse' as const,
     marginBottom: '20px',
-    fontSize: '15px',
+    fontSize: '14px', // Um pouco menor para mobile
     tableLayout: 'fixed' as const,
     fontFamily: 'Segoe UI, Arial, sans-serif',
     boxShadow: '0 1px 4px rgba(0, 0, 0, 0.1)',
@@ -199,8 +198,8 @@ const styles = {
     border: '2px solid #000',
   },
   labelCell: {
-    width: '30%',
-    padding: '12px 14px',
+    width: '40%', // Aumentado para caber em telas pequenas
+    padding: '10px 8px', // Ajustado
     fontWeight: 'bold' as const,
     backgroundColor: '#167e39ff',
     color: '#fff',
@@ -212,8 +211,8 @@ const styles = {
     verticalAlign: 'top' as const,
   },
   valueCell: {
-    width: '70%',
-    padding: '12px 14px',
+    width: '60%',
+    padding: '10px 8px',
     backgroundColor: '#fafafa',
     color: '#000',
     border: '1px solid #ddd',
@@ -228,65 +227,65 @@ const styles = {
     backgroundColor: '#d1fab5ff',
     fontWeight: 'bold' as const,
     textAlign: 'left' as const,
-    padding: '12px 14px',
+    padding: '10px 8px',
   },
   danger: {
     color: '#c62828',
     backgroundColor: '#fac4c4ff',
     fontWeight: 'bold' as const,
     textAlign: 'left' as const,
-    padding: '12px 14px',
+    padding: '10px 8px',
   },
   photoSection: {
     display: 'flex',
     justifyContent: 'space-between',
-    gap: '16px',
+    gap: '12px', // Menor em mobile
     marginTop: '16px',
-    flexWrap: 'wrap' as const,
+    flexWrap: 'wrap' as const, // Quebra linha quando necessário
   },
   photoItem: {
-    flex: '1',
-    minWidth: '280px',
+    flex: '1 1 280px', // flex-basis: 280px, mas pode encolher
+    minWidth: '260px', // Menor em mobile
     textAlign: 'center' as const,
   },
   subTitle: {
-    margin: '8px 0 6px 0',
-    fontSize: '15px',
+    margin: '6px 0 4px 0',
+    fontSize: '14px', // Ajustado
     color: '#333',
     fontWeight: '600' as const,
   },
   image: {
     width: '100%',
-    maxWidth: '400px',
-    height: '300px',
+    maxWidth: '100%',
+    height: '200px', // Reduzido para mobile
     objectFit: 'cover' as const,
     borderRadius: '8px',
     border: '1px solid #ddd',
     marginTop: '6px',
-    cursor: 'pointer', // Indica que é clicável
+    cursor: 'pointer',
     transition: 'transform 0.2s',
-  },
-  imageHover: {
-    transform: 'scale(1.02)',
   },
   button: {
     display: 'block',
-    width: '95%',
-    padding: '14px',
-    backgroundColor: '#25D366',
+    width: '100%', // Ocupa 100% do container
+    maxWidth: '400px', // Limite de largura em telas grandes
+    padding: '14px 20px', // Bom espaço para toque
+    margin: '20px auto', // Centraliza e adiciona espaço
+    backgroundColor: '#25D366', // Verde do WhatsApp
     color: '#fff',
-    fontSize: '16px',
+    fontSize: '16px', // Legível em mobile
     fontWeight: 'bold' as const,
     textAlign: 'center' as const,
     textDecoration: 'none',
     borderRadius: '8px',
-    marginTop: '20px',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
     border: 'none',
     cursor: 'pointer',
+    transition: 'background-color 0.3s, transform 0.2s',
+    boxSizing: 'border-box' as const,
   },
 
-  // ✅ Novos estilos para o modal
+  // ✅ Modal (já responsivo por padrão)
   modalOverlay: {
     position: 'fixed' as const,
     top: 0,
@@ -298,27 +297,27 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1000,
-    padding: '20px',
+    padding: '10px', // Menos padding em mobile
     boxSizing: 'border-box' as const,
   },
   modalImage: {
     maxHeight: '90vh',
-    maxWidth: '90vw',
+    maxWidth: '95vw', // Aproveita melhor o espaço
     borderRadius: '8px',
     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-    objectFit: 'contain' as const, // Mostra a imagem inteira, sem cortar
+    objectFit: 'contain' as const,
   },
   closeButton: {
     position: 'absolute' as const,
-    top: '20px',
-    right: '20px',
-    width: '40px',
-    height: '40px',
+    top: '10px',
+    right: '10px',
+    width: '36px',
+    height: '36px',
     backgroundColor: '#fff',
     color: '#000',
     borderRadius: '50%',
     border: 'none',
-    fontSize: '24px',
+    fontSize: '20px',
     cursor: 'pointer',
     display: 'flex',
     justifyContent: 'center',
