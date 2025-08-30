@@ -40,7 +40,7 @@ export default function Signup() {
     <div style={styles.container}>
       {/* Logo */}
       <div style={styles.logo}>
-        <h1 style={styles.logoText}>FutVôlei</h1>
+        <h1 style={styles.logoText}>1°COPA DSANDRADE DE FUTEVÔLEI</h1>
         <p>Gerenciamento de Inscrições</p>
       </div>
 

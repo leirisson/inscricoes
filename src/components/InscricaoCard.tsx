@@ -61,7 +61,7 @@ export default function InscricaoCard({ inscricao }: InscricaoCardProps) {
     `Olá! Seu pagamento de inscrição foi verificado e sua inscrição foi confirmada com sucesso! 🎉\n\n` +
     `Categoria: ${category}\n` +
     `Atletas: ${athlete1Name} e ${athlete2Name}\n\n` +
-    `Equipe FutVôlei`
+    `Equipe 1°COPA DSANDRADE DE FUTEVÔLEI`
   )
 
   const linkWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagem}`
