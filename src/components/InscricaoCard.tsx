@@ -1,6 +1,6 @@
 // src/components/InscricaoCard.tsx
 import { format } from 'date-fns'
-
+import { useState } from 'react'
 
 interface Inscricao {
   id: number
@@ -36,6 +36,22 @@ export default function InscricaoCard({ inscricao }: InscricaoCardProps) {
 
   const dataFormatada = format(new Date(data_inscricao), 'dd/MM/yyyy \'às\' HH:mm')
   const usoImagemAutorizado = authorizeImageUse === 'true'
+
+  // Estado para controle do modal de imagem
+  const [modalOpen, setModalOpen] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+
+  // Função para abrir o modal com a imagem clicada
+  const openModal = (imageSrc: string) => {
+    setSelectedImage(imageSrc)
+    setModalOpen(true)
+  }
+
+  // Função para fechar o modal
+  const closeModal = () => {
+    setModalOpen(false)
+    setSelectedImage(null)
+  }
 
   // Formatar telefone para WhatsApp
   const telefoneLimpo = telefone.replace(/\D/g, '')
@@ -96,11 +112,29 @@ export default function InscricaoCard({ inscricao }: InscricaoCardProps) {
       <div style={styles.photoSection}>
         <div style={styles.photoItem}>
           <h4 style={styles.subTitle}>Foto da Dupla</h4>
-          <img src={photo} alt="Foto da dupla" style={styles.image} />
+          <img
+            src={photo}
+            alt="Foto da dupla"
+            style={styles.image}
+            onClick={() => openModal(photo)}
+            aria-label="Clique para ampliar a foto da dupla"
+            role="button"
+            tabIndex={0}
+            onKeyPress={(e) => e.key === 'Enter' && openModal(photo)}
+          />
         </div>
         <div style={styles.photoItem}>
           <h4 style={styles.subTitle}>Comprovante</h4>
-          <img src={paymentProof} alt="Comprovante de pagamento" style={styles.image} />
+          <img
+            src={paymentProof}
+            alt="Comprovante de pagamento"
+            style={styles.image}
+            onClick={() => openModal(paymentProof)}
+            aria-label="Clique para ampliar o comprovante"
+            role="button"
+            tabIndex={0}
+            onKeyPress={(e) => e.key === 'Enter' && openModal(paymentProof)}
+          />
         </div>
       </div>
 
@@ -113,6 +147,25 @@ export default function InscricaoCard({ inscricao }: InscricaoCardProps) {
       >
         Confirmar Inscrição
       </a>
+
+      {/* Modal de Imagem em Tela Cheia */}
+      {modalOpen && selectedImage && (
+        <div style={styles.modalOverlay} onClick={closeModal}>
+          <button
+            style={styles.closeButton}
+            onClick={closeModal}
+            aria-label="Fechar imagem ampliada"
+          >
+            ✕
+          </button>
+          <img
+            src={selectedImage}
+            alt="Imagem ampliada"
+            style={styles.modalImage}
+            onClick={(e) => e.stopPropagation()} // Evita fechar ao clicar na imagem
+          />
+        </div>
+      )}
     </div>
   )
 }
@@ -127,11 +180,11 @@ const styles = {
     padding: '20px',
     backgroundColor: '#fff',
     borderRadius: '12px',
-    border: '2px solid #e9e9e97a', // Borda preta padrão
+    border: '2px solid #e9e9e97a',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
     fontFamily: "'Segoe UI', Arial, sans-serif",
     boxSizing: 'border-box' as const,
-    overflow: 'hidden', // Evita overflow
+    overflow: 'hidden',
   },
   table: {
     width: '100%',
@@ -143,14 +196,14 @@ const styles = {
     boxShadow: '0 1px 4px rgba(0, 0, 0, 0.1)',
     borderRadius: '8px',
     overflow: 'hidden' as const,
-    border: '2px solid #000', // Borda preta mais forte ao redor da tabela
+    border: '2px solid #000',
   },
   labelCell: {
     width: '30%',
     padding: '12px 14px',
     fontWeight: 'bold' as const,
-    backgroundColor: '#167e39ff', // Fundo preto nos títulos
-    color: '#fff', // Texto branco nos títulos
+    backgroundColor: '#167e39ff',
+    color: '#fff',
     border: '1px solid #000',
     textAlign: 'left' as const,
     whiteSpace: 'nowrap' as const,
@@ -161,10 +214,10 @@ const styles = {
   valueCell: {
     width: '70%',
     padding: '12px 14px',
-    backgroundColor: '#fafafa', // Fundo claro nas células de valor
-    color: '#000', // Texto preto
+    backgroundColor: '#fafafa',
+    color: '#000',
     border: '1px solid #ddd',
-    borderLeft: 'none' as const, // Remove borda duplicada
+    borderLeft: 'none' as const,
     textAlign: 'left' as const,
     whiteSpace: 'normal' as const,
     wordWrap: 'break-word' as const,
@@ -172,11 +225,10 @@ const styles = {
   },
   success: {
     color: '#2e7d32',
-        backgroundColor: '#d1fab5ff',
+    backgroundColor: '#d1fab5ff',
     fontWeight: 'bold' as const,
     textAlign: 'left' as const,
-     padding: '12px 14px',
-
+    padding: '12px 14px',
   },
   danger: {
     color: '#c62828',
@@ -207,16 +259,21 @@ const styles = {
     width: '100%',
     maxWidth: '400px',
     height: '300px',
-    objectFit: 'cover' as const, // Mantém proporção e corta se necessário
+    objectFit: 'cover' as const,
     borderRadius: '8px',
     border: '1px solid #ddd',
     marginTop: '6px',
+    cursor: 'pointer', // Indica que é clicável
+    transition: 'transform 0.2s',
+  },
+  imageHover: {
+    transform: 'scale(1.02)',
   },
   button: {
     display: 'block',
     width: '95%',
     padding: '14px',
-    backgroundColor: '#25D366', // Verde WhatsApp
+    backgroundColor: '#25D366',
     color: '#fff',
     fontSize: '16px',
     fontWeight: 'bold' as const,
@@ -225,11 +282,49 @@ const styles = {
     borderRadius: '8px',
     marginTop: '20px',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-    transition: 'background-color 0.3s',
     border: 'none',
     cursor: 'pointer',
   },
-  buttonHover: {
-    backgroundColor: '#128C7E',
+
+  // ✅ Novos estilos para o modal
+  modalOverlay: {
+    position: 'fixed' as const,
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+    padding: '20px',
+    boxSizing: 'border-box' as const,
+  },
+  modalImage: {
+    maxHeight: '90vh',
+    maxWidth: '90vw',
+    borderRadius: '8px',
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+    objectFit: 'contain' as const, // Mostra a imagem inteira, sem cortar
+  },
+  closeButton: {
+    position: 'absolute' as const,
+    top: '20px',
+    right: '20px',
+    width: '40px',
+    height: '40px',
+    backgroundColor: '#fff',
+    color: '#000',
+    borderRadius: '50%',
+    border: 'none',
+    fontSize: '24px',
+    cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontWeight: 'bold' as const,
+    zIndex: 1001,
+    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)',
   },
 }
